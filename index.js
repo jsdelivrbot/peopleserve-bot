@@ -347,6 +347,7 @@ express()
           {
           offset: 1,
           },(err,row)=>{
+            console.log(req.body)
           console.log(row[findById(req.body.fbID,row)])
           row[findById(req.body.fbID,row)].position = req.body.WorkPosition;
           row[findById(req.body.fbID,row)].save();
@@ -623,7 +624,7 @@ express()
             event.preventDefault();
             
             const formData = $('#preferencesForm').serialize();
-          
+            console.log(formData)
             $.post('/Position', formData, function (data) {
                 
             });
