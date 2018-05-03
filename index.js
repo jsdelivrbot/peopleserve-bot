@@ -91,53 +91,83 @@ express()
         row[findById(req.query.id,row)].save();
     })
 
-    if(req.query.category == "Skilled"){
+    if(req.query.location == "NCR"){
     locations = [
-        {location:"Driver"},
-        {location:"Warehouseman"},
-        {location:"Forklift Operator"},
-        {location:"CAD Operator"},
-        {location:"Housekeeping Staff"},
+        {location:"Caloocan"},
+        {location:"Malabon"},
+        {location:"Navotas"},
+        {location:"Valenzuela"},
+        {location:"Quezon City"},
         {location:"Therapist"},
-        {location:"Electrician"},
-        {location:"Driver"},
+        {location:"Marikina"},
+        {location:"San Juan"},
+        {location:"Marikina"},
+        {location:"Rizal"},
+        {location:"Mandaluyong"},
+        {location:"Pasig"},
+        {location:"Taguig"},
+        {location:"Makati"},
+        {location:"Pasay"},
+        {location:"Las Pinas"},
+        {location:"Paranaque"},
+        {location:"Muntinlupa"},
         ];
-        opt = "Skilled"
+        opt = "NCR"
     }
-    if(req.query.category == "Retail"){
+    if(req.query.location == "VISMIN"){
         locations = [
-            {location:"Cashier"},
-            {location:" Sales Clerk"},
-            {location:"Customer Service Associate"},
-            {location:"Service Crew"},
-            {location:"Bagger"},
-            {location:"Barista"},
-            {location:"Bartender"},
-            {location:"Receiving Clerk"},
-            {location:"Bad Order Custodian"},
+            {location:"Cebu"},
+            {location:"Davao"},
+            {location:"Bacolod"},
+            {location:"Iloilo"},
+            {location:"Roxas City"},
+            {location:"Tacloban"},
+            {location:"Antique"},
+            {location:"Dumaguete"},
+            {location:"Cagayan De Oro"},
+            {location:"Cotabato"},
             ];
-            opt = "Retail"
+            opt = "VISMIN"
     }
-    else if(req.query.category == "BackOffice"){
+    else if(req.query.location == "NORTH"){
         locations = [
-            {location:"HR Staff"},
-            {location:"Area Coordinator"},
-            {location:"Accouting Staff"},
-            {location:"Payroll Staff"},
-            {location:"Encoder,"},
-            {location:"Documentations Clerk"},
-            {location:"Airline Ticketing Agent"},
-            {location:"Admin Staff"},
+            {location:"Bulacan"},
+            {location:"Pampanga"},
+            {location:"Cotabato"},
+            {location:"Nueva Ecija"},
+            {location:"Zambales"},
+            {location:"Bataan"},
+            {location:"Tarlac"},
+            {location:"Pangasinan"},
+            {location:"La Union"},
+            {location:"Baguio City"},
+            {location:"La Trinidad"},
+            {location:"Ilocos Norte"},
+            {location:"Isabela"},
+            
+
+
             ];
-            opt = "BackOffice"
+            opt = "NORTH"
+    }
+
+    else if(req.query.location == "SOUTH"){
+        locations = [
+            {location:"Laguna"},
+            {location:"Cavite"},
+            {location:"Batangas"},
+            {location:"MIMAROPA"},
+            {location:"Quezon Province"},
+            ];
+            opt = "SOUTH"
     }
 
     locations.forEach((location,index) => {
         console.log(location);
         choices = choices + `
                             <li>
-                            <input type="radio" id="option${index}" name="WorkLocation" value="${locations.location}" required>
-                            <label for="option${index}">${locations.location}</label>
+                            <input type="radio" id="option${index}" name="WorkLocation" value="${location.location}" required>
+                            <label for="option${index}">${location.location}</label>
                             
                             <div class="check"></div>
                             </li>
@@ -146,14 +176,33 @@ express()
     choices = choices + `<input type="hidden" name="fbID" value="${req.query.id}">`;
     
     const HTML = renderView({
-        title: `${req.query.category} Positions`,
-        body: choices
+        title: `${req.query.location} Locations`,
+        body: choices,
+        script:`<script>
+        window.extAsyncInit = function() {
+          console.log('Messenger extensions are ready');
+          
+          // Handle button click
+          $('#preferencesForm').submit(function(event) {
+            console.log('Submit pressed');
+            window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
+            event.preventDefault();
+            
+            const formData = $('#preferencesForm').serialize();
+            
+            $.post('/Location', formData, function (data) {
+                
+            });
+          });
+          
+        }
+      </script>`
 
     });
 
     res.set('Content-Type', 'text/html');
     res.status(200).send(HTML);
-  })
+})
 
   .get('/Webview', (req, res) => {
       var choices = "";
@@ -225,7 +274,27 @@ express()
       
       const HTML = renderView({
           title: `${req.query.category} Positions`,
-          body: choices
+          body: choices,
+        //   script:`<script>
+        //   window.extAsyncInit = function() {
+        //     console.log('Messenger extensions are ready');
+            
+        //     // Handle button click
+        //     $('#preferencesForm').submit(function(event) {
+        //       console.log('Submit pressed');
+        //       window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
+        //       event.preventDefault();
+              
+        //       const formData = $('#preferencesForm').serialize();
+              
+        //       $.post('/Position', formData, function (data) {
+                  
+        //       });
+        //     });
+            
+        //   }
+        // </script>`
+
 
       });
 
@@ -271,7 +340,7 @@ express()
             res.send(row);
         })
     })
-    
+
   .post('/Position',(req,res)=>{
       console.log(req.body)
       doc.getRows(2,
@@ -284,6 +353,18 @@ express()
           console.log(row[findById(req.body.fbID,row)])
   
       }) 
+
+      var request = require('request');
+      
+          request.post(
+              `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.body.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=location`,
+              { json: { key: 'value' } },
+              function (error, response, body) {
+                  if (!error && response.statusCode == 200) {
+                      console.log(body)
+                  }
+              }
+          );
   })
 
     
@@ -530,6 +611,7 @@ express()
         integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
         crossorigin="anonymous"></script>
 
+        
         <script>
         window.extAsyncInit = function() {
           console.log('Messenger extensions are ready');
@@ -541,14 +623,14 @@ express()
             event.preventDefault();
             
             const formData = $('#preferencesForm').serialize();
-            
+          
             $.post('/Position', formData, function (data) {
                 
             });
           });
           
         }
-      </script>    
+      </script>
       </body>
       </html>
     `;
