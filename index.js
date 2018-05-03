@@ -208,7 +208,7 @@ express()
       var choices = "";
       var positions = [];
       var opt;
-
+      console.log(req.query)
       doc.getRows(2,
           {
           offset: 1,
@@ -350,14 +350,13 @@ express()
           console.log(row[findById(req.query.fbID,row)])
           row[findById(req.query.fbID,row)].position = req.query.WorkPosition;
           row[findById(req.query.fbID,row)].save();
-          console.log(row[findById(req.query.fbID,row)])
   
       }) 
 
       var request = require('request');
       
           request.post(
-              `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.body.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
+              `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
               { json: { key: 'value' } },
               function (error, response, body) {
                   if (!error && response.statusCode == 200) {
@@ -365,6 +364,7 @@ express()
                   }
               }
           );
+
   })
 
     
@@ -636,12 +636,15 @@ express()
               WorkPosition: WorkPosition,
               fbID: document.getElementById('fbID').value
             }
-            console.log(formData)
+
+
+            window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
+            event.preventDefault();
+
             $.get("/Position?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
                 
             });
 
-            event.preventDefault();
             
 
           });
