@@ -633,7 +633,7 @@ express()
             }
 
 
-            window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
+            window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="Please wait for this window to close"');
             
 
            ${locals.script}
