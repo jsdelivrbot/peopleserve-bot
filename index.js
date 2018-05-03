@@ -82,14 +82,14 @@ express()
     var locations = [];
     var opt;
 
-    doc.getRows(2,
-        {
-        offset: 1,
-        },(err,row)=>{
-        console.log(row[findById(req.query.id,row)])
-        row[findById(req.query.id,row)].location = req.query.location;
-        row[findById(req.query.id,row)].save();
-    })
+    // doc.getRows(2,
+    //     {
+    //     offset: 1,
+    //     },(err,row)=>{
+    //     console.log(row[findById(req.query.id,row)])
+    //     row[findById(req.query.id,row)].location = req.query.location;
+    //     row[findById(req.query.id,row)].save();
+    // })
 
     if(req.query.location == "NCR"){
     locations = [
@@ -166,37 +166,21 @@ express()
         console.log(location);
         choices = choices + `
                             <li>
-                            <input type="radio" id="option${index}" name="WorkLocation" value="${location.location}" required>
+                            <input type="radio" id="option${index}" name="WorkPosition" value="${location.location}" required>
                             <label for="option${index}">${location.location}</label>
                             
                             <div class="check"></div>
                             </li>
                             `
     });
-    choices = choices + `<input type="hidden" name="fbID" value="${req.query.id}">`;
+    choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
     
     const HTML = renderView({
         title: `${req.query.location} Locations`,
         body: choices,
-        script:`<script>
-        window.extAsyncInit = function() {
-          console.log('Messenger extensions are ready');
-          
-          // Handle button click
-          $('#preferencesForm').submit(function(event) {
-            console.log('Submit pressed');
-            window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
-            event.preventDefault();
-            
-            const formData = $('#preferencesForm').serialize();
-            
-            $.post('/Location', formData, function (data) {
+        script:`$.get("/LocPrint?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
                 
-            });
-          });
-          
-        }
-      </script>`
+            });`
 
     });
 
@@ -275,25 +259,10 @@ express()
       const HTML = renderView({
           title: `${req.query.category} Positions`,
           body: choices,
-        //   script:`<script>
-        //   window.extAsyncInit = function() {
-        //     console.log('Messenger extensions are ready');
+          script:`$.get("/Position?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
             
-        //     // Handle button click
-        //     $('#preferencesForm').submit(function(event) {
-        //       console.log('Submit pressed');
-        //       window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
-        //       event.preventDefault();
-              
-        //       const formData = $('#preferencesForm').serialize();
-              
-        //       $.post('/Position', formData, function (data) {
-                  
-        //       });
-        //     });
-            
-        //   }
-        // </script>`
+        });`
+
 
 
       });
@@ -366,6 +335,32 @@ express()
           );
 
   })
+
+  .get('/LocPrint',(req,res)=>{
+    console.log(req.query)
+    doc.getRows(2,
+        {
+        offset: 1,
+        },(err,row)=>{
+        console.log(row[findById(req.query.fbID,row)])
+        row[findById(req.query.fbID,row)].location = req.query.WorkPosition;
+        row[findById(req.query.fbID,row)].save();
+
+    }) 
+
+    var request = require('request');
+    
+        request.post(
+            `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
+            { json: { key: 'value' } },
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(body)
+                }
+            }
+        );
+
+})
 
     
 
@@ -639,13 +634,11 @@ express()
 
 
             window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="asdfasdfasdf');
-            event.preventDefault();
-
-            $.get("/Position?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
-                
-            });
-
             
+
+           ${locals.script}
+
+           event.preventDefault();
 
           });
           
