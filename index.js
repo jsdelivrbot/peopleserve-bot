@@ -293,7 +293,7 @@ express()
             },(err,row)=>{
             console.log(row[findById(req.query["messenger user id"],row)])
             row[findById(req.query["messenger user id"],row)].education = req.query.education;
-            row[0].save();
+            row[findById(req.query["messenger user id"],row)].save();
             res.send(row);
         })
     })
@@ -305,7 +305,7 @@ express()
             },(err,row)=>{
             console.log(row[findById(req.query["messenger user id"],row)])
             row[findById(req.query["messenger user id"],row)].category = req.query.category;
-            row[0].save();
+            row[findById(req.query["messenger user id"],row)].save();
             res.send(row);
         })
     })
