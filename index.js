@@ -386,6 +386,43 @@ express()
   }) 
 })
 
+.get('/writeBirthday',(req,res)=>{
+  console.log(req.query)
+  doc.getRows(2,
+      {
+      offset: 1,
+      },(err,row)=>{
+      row[findById(req.query["messenger user id"],row)].birthday = req.query.birthday;
+      row[findById(req.query["messenger user id"],row)].save();
+      res.send(row);
+  }) 
+})
+
+.get('/writeEmail',(req,res)=>{
+  console.log(req.query)
+  doc.getRows(2,
+      {
+      offset: 1,
+      },(err,row)=>{
+      row[findById(req.query["messenger user id"],row)].email = req.query.email;
+      row[findById(req.query["messenger user id"],row)].save();
+      res.send(row);
+  }) 
+})
+
+.get('/writeNumber',(req,res)=>{
+  console.log(req.query)
+  doc.getRows(2,
+      {
+      offset: 1,
+      },(err,row)=>{
+      row[findById(req.query["messenger user id"],row)].number = req.query.number;
+      row[findById(req.query["messenger user id"],row)].save();
+      res.send(row);
+  }) 
+})
+
+
     
 
 
