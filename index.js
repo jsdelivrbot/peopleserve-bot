@@ -362,6 +362,30 @@ express()
 
 })
 
+.get('/writeName',(req,res)=>{
+  console.log(req.query)
+  doc.getRows(2,
+      {
+      offset: 1,
+      },(err,row)=>{
+      row[findById(req.query["messenger user id"],row)].name = req.query.Name;
+      row[findById(req.query["messenger user id"],row)].save();
+      res.send(row);
+  }) 
+})
+
+.get('/writeAddress',(req,res)=>{
+  console.log(req.query)
+  doc.getRows(2,
+      {
+      offset: 1,
+      },(err,row)=>{
+      row[findById(req.query["messenger user id"],row)].address = req.query.Address;
+      row[findById(req.query["messenger user id"],row)].save();
+      res.send(row);
+  }) 
+})
+
     
 
 
