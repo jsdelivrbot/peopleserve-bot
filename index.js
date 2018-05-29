@@ -98,7 +98,6 @@ express()
         {location:"Navotas"},
         {location:"Valenzuela"},
         {location:"Quezon City"},
-        {location:"Therapist"},
         {location:"Marikina"},
         {location:"San Juan"},
         {location:"Marikina"},
