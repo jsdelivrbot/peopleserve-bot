@@ -293,6 +293,10 @@ express()
             console.log(row[findById(req.query["messenger user id"],row)])
             row[findById(req.query["messenger user id"],row)].education = req.query.education;
             row[findById(req.query["messenger user id"],row)].save();
+            if(err){
+                console.log(err);
+                res.send(err);
+            }
             res.send(row);
         })
     })
