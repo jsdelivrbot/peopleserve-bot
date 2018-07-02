@@ -354,7 +354,7 @@ express()
     
         request.post(
             `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
-            { json: { key: req.query.WorkPosition } },
+            { json: { key: 'value' } },
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     console.log(body)
