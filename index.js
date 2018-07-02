@@ -232,9 +232,9 @@ express()
           positions = [
               {position:"HR Staff"},
               {position:"Area Coordinator"},
-              {position:"Accouting Staff"},
+              {position:"Accounting Staff"},
               {position:"Payroll Staff"},
-              {position:"Encoder,"},
+              {position:"Encoder"},
               {position:"Documentations Clerk"},
               {position:"Airline Ticketing Agent"},
               {position:"Admin Staff"},
