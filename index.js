@@ -286,19 +286,21 @@ express()
   })
 
   .get('/Education', (req,res)=>{
+        console.log(req.query["messenger user id"])
         doc.getRows(2,
             {
             offset: 1,
             },(err,row)=>{
-            console.log(row[findById(req.query["messenger user id"],row)])
+            // console.log(row[findById(req.query["messenger user id"],row)])
             row[findById(req.query["messenger user id"],row)].education = req.query.education;
             row[findById(req.query["messenger user id"],row)].save();
-            console.log(err);
+            // console.log(err);
             res.send(row);
         })
     })
 
   .get('/Category', (req,res)=>{
+
         doc.getRows(2,
             {
             offset: 1,
@@ -326,7 +328,7 @@ express()
       
           request.post(
               `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
-              { json: { key: 'value' } },
+              { json: { key: req.query.WorkPosition } },
               function (error, response, body) {
                   if (!error && response.statusCode == 200) {
                       console.log(body)
