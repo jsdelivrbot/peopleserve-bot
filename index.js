@@ -45,12 +45,26 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-
-
+  .get('/datepicker',(req,res) =>
+  {
+    fbid = req.query['id']
+    res.render('pages/sample', {id : fbid})
+  })
 
   .get('/sample',(req,res)=>{
-    res.send("sample")
-
+      console.log(req.query.fbid);
+      console.log('log');
+      console.log(req.query.samples);
+      var request = require('request');
+      request.post(
+              `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbid}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=newRequirements`,
+              { json: { key: req.query.samples } },
+              function (error, response, body) {
+                  if (!error && response.statusCode == 200) {
+                      console.log(body)
+                  }
+              }
+          );
   })
 
   .get('/results',(req,res)=>{
