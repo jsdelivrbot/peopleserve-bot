@@ -67,6 +67,22 @@ express()
           );
   })
 
+  .get('/skilled',(req,res)=>{
+        let data = [
+            {position:"Forklift Operator"},
+            {position:"Driver"},
+            {position:"Butcher"},
+            {position:"Massage Therapist"},
+            {position:"Gym Instructor"},
+            {position:"Warehouse Personnel"},
+            {position:"CAD Operator"},
+            {position:"Visual Artist"},
+            {position:"Plant Operator"},
+            {position:"Utility Man"}
+            ];
+            res.render('pages/skilled', {positions : data})
+})
+  
   .get('/results',(req,res)=>{
     doc.addRow(2,{
         "id": "1234",
