@@ -9,171 +9,270 @@ const doc = new GoogleSpreadsheet('1rdDiUasw1IasMa3-hOgj0hvVur-mqunjq4U79VJthws'
 
 
 async.series([
-  setAuth = (step) => {
-      // see notes below for authentication instructions!
-      var creds = {
-          "type": "service_account",
-          "project_id": "fresh-effort-200709",
-          "private_key_id": "82c302ed12ebdc2bbc4c93a588c99fb9c317a656",
-          "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCfnuiDo8tEhjrx\nQqrQ0lDT0PVT9v8Pd2vyqmDF57Pdk0KF0Rstcwlq+TAhmV9FvB/XC/0ci6uFltrQ\nOrZgxpnuhaMvDjXPnSUWweyIsQ6Y+lBsCdb4g7DtmtUn62zBH+Y4Ie0mSMcK2II4\n8uU1/Zkd4kaRS+ae3Z8z99go4dN+oybRvmNyV4E7njlzmtI2yIZWYDNpJFuSePQL\nJprIivHlhkqvG+suOJjKkcvfJqsSd6WW527os78elxE0uKB7amojHV/f/vMmoLpF\ntaRBpcFH0p5foOyPta3Dj/TBYgjprNB5/y1JDd8TC8IhIxuEq+aiAjv5wQlKFcco\n7HTb1+4lAgMBAAECggEACXdfIA94Cpml/TuQQyTLQ69CHWH/QRI6sKrcul/svC3z\nkAQVXIip/PzHl0vak+7S5JStb3fztXnQ2EXjHbIpht/Itw2yBfIH37r4etLP+XqU\nMmloT6y1CCJalIIoclD1/PY7c5MgBXX5oxmkm6MX5ZHPJZF0HTp/f+bURvhoQTuh\nICAOp/qkdA5B+qJBLJush+7gvu00rzhNNOMAYJeQA3yeeuHvMxpqZHEg3c+0Jilg\n/54NmCoOGGdIKGmu/XoD1Chz0ernDeD1CUKKclpmQuhjK3Bk2KGhCfQ8VcMZQjMr\ncdF1R2k6HzXUcmLTeffLFycC/yHLYnJFx/pArci3MQKBgQDRIOFEirroFfd4e0b1\nHygbKr0BhlL3WrT7T5EtXmQ0zAEc4D+XejP7A4oYrVCAs9MmXDs4vOOVANaZd1A9\nDLievqBqcK39zQsO9xlOb1t2CNjvN3V0B9T5XOcIOXub5LyVO+KC+K3wfslTkD0p\n7UjaW6y1ShbHv96oplRY37zm2wKBgQDDZW9WDed7SSDeEW3fGWo+2K9be3++NPpk\nllVo9mgJviTifWw3nqioCj7ECdcXGgqDYQaADwfex2uYV4BQsaLd3ho/qeO7bI2p\nOp1/CenTSIyPjXT1bvLzC5e8XGC88HKgQp6GbO1mQE4if46ztm+f4m4md9iivhi3\nyUnRKIoO/wKBgQCKLteqmqB1yk4C5jI0tamiidLptwALQXxksmaTO9Oqr0Hs+qAK\nT00Zh3UwaRTQdgIHTtoy21zlj/A854G1VTqIah1FN78//MRZ1xx5n0sn6yCssFCD\noskvHBvsa08p6zJQyYkaUYddaelNtfk0Qv3oirrL73Ct/DH77iu9rdj8EQKBgQCh\ny41siWjjKkOf/ninIwlZ7t0NeG7nlkC8J8ujdV3iq2MpdEe2qpbnRkyA0dEcHQEV\nlrLmOQwAScrrQ5FJwD2nT/EWRFwBZzrKJXIirpfCzzEs8SomzO85l6DWZPvpl4Si\n9WcE0o+lepv4bv1ADFHT54/kJJrq71PSY0fPfK0NCwKBgGwG/6BirUGU++GnplBy\n2sEfo/i1NTwKefKUDZAPTD6GeZ1nIl3/nKpcgadpTE1N7ugh6hCCG6CUA5r8vimV\nKNm2tpWSpSDtB/OKWjU8iwpIRz63oIySzVsCa1H0OFHnHyvTMk6ixlohkP73qzNk\nXosrL9uUMQk5OZ06TBMuKYZO\n-----END PRIVATE KEY-----\n",
-          "client_email": "peopleserve@fresh-effort-200709.iam.gserviceaccount.com",
-          "client_id": "109023989379681204479",
-          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-          "token_uri": "https://accounts.google.com/o/oauth2/token",
-          "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-          "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/peopleserve%40fresh-effort-200709.iam.gserviceaccount.com"
+    setAuth = (step) => {
+        // see notes below for authentication instructions!
+        var creds = {
+            "type": "service_account",
+            "project_id": "fresh-effort-200709",
+            "private_key_id": "82c302ed12ebdc2bbc4c93a588c99fb9c317a656",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCfnuiDo8tEhjrx\nQqrQ0lDT0PVT9v8Pd2vyqmDF57Pdk0KF0Rstcwlq+TAhmV9FvB/XC/0ci6uFltrQ\nOrZgxpnuhaMvDjXPnSUWweyIsQ6Y+lBsCdb4g7DtmtUn62zBH+Y4Ie0mSMcK2II4\n8uU1/Zkd4kaRS+ae3Z8z99go4dN+oybRvmNyV4E7njlzmtI2yIZWYDNpJFuSePQL\nJprIivHlhkqvG+suOJjKkcvfJqsSd6WW527os78elxE0uKB7amojHV/f/vMmoLpF\ntaRBpcFH0p5foOyPta3Dj/TBYgjprNB5/y1JDd8TC8IhIxuEq+aiAjv5wQlKFcco\n7HTb1+4lAgMBAAECggEACXdfIA94Cpml/TuQQyTLQ69CHWH/QRI6sKrcul/svC3z\nkAQVXIip/PzHl0vak+7S5JStb3fztXnQ2EXjHbIpht/Itw2yBfIH37r4etLP+XqU\nMmloT6y1CCJalIIoclD1/PY7c5MgBXX5oxmkm6MX5ZHPJZF0HTp/f+bURvhoQTuh\nICAOp/qkdA5B+qJBLJush+7gvu00rzhNNOMAYJeQA3yeeuHvMxpqZHEg3c+0Jilg\n/54NmCoOGGdIKGmu/XoD1Chz0ernDeD1CUKKclpmQuhjK3Bk2KGhCfQ8VcMZQjMr\ncdF1R2k6HzXUcmLTeffLFycC/yHLYnJFx/pArci3MQKBgQDRIOFEirroFfd4e0b1\nHygbKr0BhlL3WrT7T5EtXmQ0zAEc4D+XejP7A4oYrVCAs9MmXDs4vOOVANaZd1A9\nDLievqBqcK39zQsO9xlOb1t2CNjvN3V0B9T5XOcIOXub5LyVO+KC+K3wfslTkD0p\n7UjaW6y1ShbHv96oplRY37zm2wKBgQDDZW9WDed7SSDeEW3fGWo+2K9be3++NPpk\nllVo9mgJviTifWw3nqioCj7ECdcXGgqDYQaADwfex2uYV4BQsaLd3ho/qeO7bI2p\nOp1/CenTSIyPjXT1bvLzC5e8XGC88HKgQp6GbO1mQE4if46ztm+f4m4md9iivhi3\nyUnRKIoO/wKBgQCKLteqmqB1yk4C5jI0tamiidLptwALQXxksmaTO9Oqr0Hs+qAK\nT00Zh3UwaRTQdgIHTtoy21zlj/A854G1VTqIah1FN78//MRZ1xx5n0sn6yCssFCD\noskvHBvsa08p6zJQyYkaUYddaelNtfk0Qv3oirrL73Ct/DH77iu9rdj8EQKBgQCh\ny41siWjjKkOf/ninIwlZ7t0NeG7nlkC8J8ujdV3iq2MpdEe2qpbnRkyA0dEcHQEV\nlrLmOQwAScrrQ5FJwD2nT/EWRFwBZzrKJXIirpfCzzEs8SomzO85l6DWZPvpl4Si\n9WcE0o+lepv4bv1ADFHT54/kJJrq71PSY0fPfK0NCwKBgGwG/6BirUGU++GnplBy\n2sEfo/i1NTwKefKUDZAPTD6GeZ1nIl3/nKpcgadpTE1N7ugh6hCCG6CUA5r8vimV\nKNm2tpWSpSDtB/OKWjU8iwpIRz63oIySzVsCa1H0OFHnHyvTMk6ixlohkP73qzNk\nXosrL9uUMQk5OZ06TBMuKYZO\n-----END PRIVATE KEY-----\n",
+            "client_email": "peopleserve@fresh-effort-200709.iam.gserviceaccount.com",
+            "client_id": "109023989379681204479",
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://accounts.google.com/o/oauth2/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/peopleserve%40fresh-effort-200709.iam.gserviceaccount.com"
         }
-        
-      doc.useServiceAccountAuth(creds, step);
-    }  
-  ])
 
-
-
-  function findById(id, rows){
-    for(var i = 0; i < rows.length; i++)
-    {
-      if(rows[i].id == id)
-      {
-        return i;
-      }
+        doc.useServiceAccountAuth(creds, step);
     }
+])
+
+
+ function findById(id, rows) {
+    rows.forEach((value,index)=>{
+        if(value.id == id){
+            console.log(index);  
+            return index
+        }
+        else{
+            console.log("wala");
+        }
+    })
 }
 
 express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/datepicker',(req,res) =>
-  {
-    fbid = req.query['id']
-    res.render('pages/sample', {id : fbid})
-  })
-
-  .get('/sample',(req,res)=>{
-      console.log(req.query.fbid);
-      console.log('log');
-      console.log(req.query.samples);
-      var request = require('request');
-      request.post(
-              `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbid}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=newRequirements`,
-              { json: { key: req.query.samples } },
-              function (error, response, body) {
-                  if (!error && response.statusCode == 200) {
-                      console.log(body)
-                  }
-              }
-          );
-  })
-
-  .get('/skilled',(req,res)=>{
-        let data = [
-            {position:"Forklift Operator"},
-            {position:"Driver"},
-            {position:"Butcher"},
-            {position:"Massage Therapist"},
-            {position:"Gym Instructor"},
-            {position:"Warehouse Personnel"},
-            {position:"CAD Operator"},
-            {position:"Visual Artist"},
-            {position:"Plant Operator"},
-            {position:"Utility Man"}
-            ];
-            res.render('pages/skilled', {positions : data})
-})
-  
-  .get('/results',(req,res)=>{
-    doc.addRow(2,{
-        "id": "1234",
-        "firstname": "Testing",
-        "lastname": Date.now()
-      },(result)=>{
-        res.send(result)
-    },(err)=>{
-        res.send(err)
+    .use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => res.render('pages/index'))
+    .get('/datepicker', (req, res) => {
+        fbid = req.query['id']
+        res.render('pages/sample', { id: fbid })
     })
-  })
 
-  .get('/Webview2', (req, res) => {
-    var choices = "";
-    var locations = [];
-    var opt;
+    .get('/sample', (req, res) => {
+        console.log(req.query.fbid);
+        console.log('log');
+        console.log(req.query.samples);
+        var request = require('request');
+        request.post(
+            `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbid}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=newRequirements`,
+            { json: { key: req.query.samples } },
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(body)
+                }
+            }
+        );
+    })
 
-
-    if(req.query.location == "NCR"){
-    locations = [
-        {location:"Caloocan"},
-        {location:"Malabon"},
-        {location:"Navotas"},
-        {location:"Valenzuela"},
-        {location:"Quezon City"},
-        {location:"Marikina"},
-        {location:"San Juan"},
-        {location:"Marikina"},
-        {location:"Rizal"},
-        {location:"Mandaluyong"},
-        {location:"Pasig"},
-        {location:"Taguig"},
-        {location:"Makati"},
-        {location:"Pasay"},
-        {location:"Las Pinas"},
-        {location:"Paranaque"},
-        {location:"Muntinlupa"},
+    .get('/skilled', (req, res) => {
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                
+                var id = row.findIndex(value => value.id == req.query.id)
+                console.log(id);
+                row[id].category = req.query.category;
+                row[id].save();
+            })
+        let data = [
+            { position: "Forklift Operator" },
+            { position: "Driver" },
+            { position: "Butcher" },
+            { position: "Massage Therapist" },
+            { position: "Gym Instructor" },
+            { position: "Warehouse Personnel" },
+            { position: "CAD Operator" },
+            { position: "Visual Artist" },
+            { position: "Plant Operator" },
+            { position: "Utility Man" }
         ];
-        opt = "NCR"
-    }
-    if(req.query.location == "VISMIN"){
-        locations = [
-            {location:"Cebu"},
-            {location:"Davao"},
-            {location:"Bacolod"},
-            {location:"Iloilo"},
-            {location:"Roxas City"},
-            {location:"Tacloban"},
-            {location:"Antique"},
-            {location:"Dumaguete"},
-            {location:"Cagayan De Oro"},
-            {location:"Cotabato"},
+        let id = req.query['id'];
+        res.render('pages/positions', { positions: data, id: id });
+    })
+
+    .get('/retail', (req, res) => {
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                var id = row.findIndex(value => value.id == req.query.id)
+                console.log(id);
+                row[id].category = req.query.category;
+                row[id].save();
+            })
+        let date = [
+            { position: "Sales Clerk" },
+            { position: "Customer Service Associate" },
+            { position: "Bagger" },
+            { position: "Merchandiser" },
+        ];
+        let id = req.query.id;
+        res.render('pages/positions', { positions: date, id: id });
+    })
+
+    .get('/food', (req, res) => {
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                var id = row.findIndex(value => value.id == req.query.id)
+                console.log(id);
+                row[id].category = req.query.category;
+                row[id].save();
+            })
+        let date = [
+            { position: "Service Staff" },
+            { position: "Kitchen Staff" },
+            { position: "Dining Staff" },
+            { position: "Dishwasher" },
+            { position: "Busboy" },
+            { position: "Barista" },
+            { position: "Cook" }
+        ];
+        let id = req.query.id;
+        res.render('pages/positions', { positions: date, id: id });
+    })
+
+    .get('/backOffice', (req, res) => {
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                var id = row.findIndex(value => value.id == req.query.id)
+                console.log(id);
+                row[id].category = req.query.category;
+                row[id].save();
+            })
+        let date = [
+            { position: "HR Staff" },
+            { position: "Accounting Staff" },
+            { position: "Payroll Staff" },
+            { position: "Admin Staff" },
+            { position: "Area Coordinator" },
+            { position: "Airline Ticketing Agent" },
+            { position: "Auto Loan Processor" },
+        ];
+        let id = req.query.id;
+        res.render('pages/positions', { positions: date, id: id });
+    })
+
+    .get('/NCR', (req, res) => {
+        let date = [
+            { location: "Caloocan" },
+            { location: "Malabon" },
+            { location: "Navotas" },
+            { location: "Valenzuela" },
+            { location: "Quezon City" },
+            { location: "Marikina" },
+            { location: "San Juan" },
+            { location: "Marikina" },
+            { location: "Rizal" },
+            { location: "Mandaluyong" },
+            { location: "Pasig" },
+            { location: "Taguig" },
+            { location: "Makati" },
+            { location: "Pasay" },
+            { location: "Las Pinas" },
+            { location: "Paranaque" },
+            { location: "Muntinlupa" },
+        ];
+        let id = req.query.id;
+        res.render('pages/locations', { locations: date, id: id });
+    })
+
+
+    .get('/results', (req, res) => {
+        doc.addRow(2, {
+            "id": "1234",
+            "firstname": "Testing",
+            "lastname": Date.now()
+        }, (result) => {
+            res.send(result)
+        }, (err) => {
+            res.send(err)
+        })
+    })
+
+    .get('/Webview2', (req, res) => {
+        var choices = "";
+        var locations = [];
+        var opt;
+
+
+        if (req.query.location == "NCR") {
+            locations = [
+                { location: "Caloocan" },
+                { location: "Malabon" },
+                { location: "Navotas" },
+                { location: "Valenzuela" },
+                { location: "Quezon City" },
+                { location: "Marikina" },
+                { location: "San Juan" },
+                { location: "Marikina" },
+                { location: "Rizal" },
+                { location: "Mandaluyong" },
+                { location: "Pasig" },
+                { location: "Taguig" },
+                { location: "Makati" },
+                { location: "Pasay" },
+                { location: "Las Pinas" },
+                { location: "Paranaque" },
+                { location: "Muntinlupa" },
+            ];
+            opt = "NCR"
+        }
+        if (req.query.location == "VISMIN") {
+            locations = [
+                { location: "Cebu" },
+                { location: "Davao" },
+                { location: "Bacolod" },
+                { location: "Iloilo" },
+                { location: "Roxas City" },
+                { location: "Tacloban" },
+                { location: "Antique" },
+                { location: "Dumaguete" },
+                { location: "Cagayan De Oro" },
+                { location: "Cotabato" },
             ];
             opt = "VISMIN"
-    }
-    else if(req.query.location == "NORTH"){
-        locations = [
-            {location:"Bulacan"},
-            {location:"Pampanga"},
-            {location:"Cotabato"},
-            {location:"Nueva Ecija"},
-            {location:"Zambales"},
-            {location:"Bataan"},
-            {location:"Tarlac"},
-            {location:"Pangasinan"},
-            {location:"La Union"},
-            {location:"Baguio City"},
-            {location:"La Trinidad"},
-            {location:"Ilocos Norte"},
-            {location:"Isabela"},
-            
-
-
+        }
+        else if (req.query.location == "NORTH") {
+            locations = [
+                { location: "Bulacan" },
+                { location: "Pampanga" },
+                { location: "Cotabato" },
+                { location: "Nueva Ecija" },
+                { location: "Zambales" },
+                { location: "Bataan" },
+                { location: "Tarlac" },
+                { location: "Pangasinan" },
+                { location: "La Union" },
+                { location: "Baguio City" },
+                { location: "La Trinidad" },
+                { location: "Ilocos Norte" },
+                { location: "Isabela" },
             ];
             opt = "NORTH"
-    }
+        }
 
-    else if(req.query.location == "SOUTH"){
-        locations = [
-            {location:"Laguna"},
-            {location:"Cavite"},
-            {location:"Batangas"},
-            {location:"MIMAROPA"},
-            {location:"Quezon Province"},
+        else if (req.query.location == "SOUTH") {
+            locations = [
+                { location: "Laguna" },
+                { location: "Cavite" },
+                { location: "Batangas" },
+                { location: "MIMAROPA" },
+                { location: "Quezon Province" },
             ];
             opt = "SOUTH"
-    }
+        }
 
-    locations.forEach((location,index) => {
-        console.log(location);
-        choices = choices + `
+        locations.forEach((location, index) => {
+            console.log(location);
+            choices = choices + `
                             <li>
                             <input type="radio" id="option${index}" name="WorkPosition" value="${location.location}">
                             <label for="option${index}">${location.location}</label>
@@ -181,89 +280,89 @@ express()
                             <div class="check"></div>
                             </li>
                             `
-    });
-    choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
-    
-    const HTML = renderView({
-        title: `${req.query.location} Locations`,
-        body: choices,
-        script:`$.get("/LocPrint?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
+        });
+        choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
+
+        const HTML = renderView({
+            title: `${req.query.location} Locations`,
+            body: choices,
+            script: `$.get("/LocPrint?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
                 
             });`
 
-    });
+        });
 
-    res.set('Content-Type', 'text/html');
-    res.status(200).send(HTML);
-})
+        res.set('Content-Type', 'text/html');
+        res.status(200).send(HTML);
+    })
 
-  .get('/Webview', (req, res) => {
-      var choices = "";
-      var positions = [];
-      var opt;
-      console.log(req.query)
-      doc.getRows(2,
-          {
-          offset: 1,
-          },(err,row)=>{
-          console.log(row[findById(req.query.id,row)])
-          row[findById(req.query.id,row)].category = req.query.category;
-          row[findById(req.query.id,row)].save();
-      })
+    .get('/Webview', (req, res) => {
+        var choices = "";
+        var positions = [];
+        var opt;
+        console.log(req.query)
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                console.log(row[findById(req.query.id, row)])
+                row[findById(req.query.id, row)].category = req.query.category;
+                row[findById(req.query.id, row)].save();
+            })
 
-      if(req.query.category == "Skilled"){
-        positions = [
-            {position:"Forklift Operator"},
-            {position:"Driver"},
-            {position:"Butcher"},
-            {position:"Massage Therapist"},
-            {position:"Gym Instructor"},
-            {position:"Warehouse Personnel"},
-            {position:"CAD Operator"},
-            {position:"Visual Artist"},
-            {position:"Plant Operator"},
-            {position:"Utility Man"},
+        if (req.query.category == "Skilled") {
+            positions = [
+                { position: "Forklift Operator" },
+                { position: "Driver" },
+                { position: "Butcher" },
+                { position: "Massage Therapist" },
+                { position: "Gym Instructor" },
+                { position: "Warehouse Personnel" },
+                { position: "CAD Operator" },
+                { position: "Visual Artist" },
+                { position: "Plant Operator" },
+                { position: "Utility Man" },
             ];
             opt = "Skilled"
-      }
-      if(req.query.category == "Food"){
-        positions = [
-            {position:"Service Staff"},
-            {position:"Kitchen Staff"},
-            {position:"Dining Staff"},
-            {position:"Dishwasher"},
-            {position:"Busboy"},
-            {position:"Barista"},
-            {position:"Cook"}
-        ];
-        opt = "Food";
-      }
-      if(req.query.category == "Retail"){
-          positions = [
-              {position:"Sales Clerk"},
-              {position:"Customer Service Associate"},
-              {position:"Bagger"},
-              {position:"Merchandiser"},
-              ];
-              opt = "Retail"
-      }
-      else if(req.query.category == "BackOffice"){
-          positions = [
-              {position:"HR Staff"},
-              {position:"Accounting Staff"},
-              {position:"Payroll Staff"},
-              {position:"Admin Staff"},
-              {position:"Area Coordinator"},
-              {position:"Airline Ticketing Agent"},
-              {position:"Auto Loan Processor"},
-              
-              ];
-              opt = "BackOffice"
-      }
+        }
+        if (req.query.category == "Food") {
+            positions = [
+                { position: "Service Staff" },
+                { position: "Kitchen Staff" },
+                { position: "Dining Staff" },
+                { position: "Dishwasher" },
+                { position: "Busboy" },
+                { position: "Barista" },
+                { position: "Cook" }
+            ];
+            opt = "Food";
+        }
+        if (req.query.category == "Retail") {
+            positions = [
+                { position: "Sales Clerk" },
+                { position: "Customer Service Associate" },
+                { position: "Bagger" },
+                { position: "Merchandiser" },
+            ];
+            opt = "Retail"
+        }
+        else if (req.query.category == "BackOffice") {
+            positions = [
+                { position: "HR Staff" },
+                { position: "Accounting Staff" },
+                { position: "Payroll Staff" },
+                { position: "Admin Staff" },
+                { position: "Area Coordinator" },
+                { position: "Airline Ticketing Agent" },
+                { position: "Auto Loan Processor" },
 
-      positions.forEach((position,index) => {
-          console.log(position);
-          choices = choices + `
+            ];
+            opt = "BackOffice"
+        }
+
+        positions.forEach((position, index) => {
+            console.log(position);
+            choices = choices + `
                               <li>
                               <input type="radio" id="option${index}" name="WorkPosition" value="${position.position}" required>
                               <label for="option${index}">${position.position}</label>
@@ -271,189 +370,243 @@ express()
                               <div class="check"></div>
                               </li>
                               `
-      });
-      choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
-      
-      const HTML = renderView({
-          title: `${req.query.category} Positions`,
-          body: choices,
-          script:`$.get("/Position?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {});`
+        });
+        choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
+
+        const HTML = renderView({
+            title: `${req.query.category} Positions`,
+            body: choices,
+            script: `$.get("/Position?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {});`
 
 
 
-      });
+        });
 
-      res.set('Content-Type', 'text/html');
-      res.status(200).send(HTML);
-  })
+        res.set('Content-Type', 'text/html');
+        res.status(200).send(HTML);
+    })
 
-  .get('/Start', (req,res)=>{
-      doc.addRow(2,{
-          "Id": req.query["messenger user id"],
-          "Firstname": req.query["first name"],
-          "Lastname": req.query["last name"],
-          "Education": "",
-          "Category":"" ,
-          "Position": "",
-        },(result)=>{
-          res.send(result)
-      },(err)=>{
-          res.send(err)
-      })
-  })
+    .get('/Start', (req, res) => {
+        doc.addRow(2, {
+            "Id": req.query["messenger user id"],
+            "Firstname": req.query["first name"],
+            "Lastname": req.query["last name"],
+            "Education": "",
+            "Category": "",
+            "Position": "",
+        }, (result) => {
+            res.send(result)
+        }, (err) => {
+            res.send(err)
+        })
+    })
 
-  .get('/Education', (req,res)=>{
+    .get('/Education', (req, res) => {
         console.log(req.query["messenger user id"])
         doc.getRows(2,
             {
-            offset: 1,
-            },(err,row)=>{
-            // console.log(row[findById(req.query["messenger user id"],row)])
-            row[findById(req.query["messenger user id"],row)].education = req.query.education;
-            row[findById(req.query["messenger user id"],row)].save();
-            // console.log(err);
-            res.send(row);
-        })
+                offset: 1,
+            }, (err, row) => {
+                // console.log(row[findById(req.query["messenger user id"],row)])
+                row[findById(req.query["messenger user id"], row)].education = req.query.education;
+                row[findById(req.query["messenger user id"], row)].save();
+                // console.log(err);
+                res.send(row);
+            })
     })
 
-  .get('/Category', (req,res)=>{
+    .get('/Category', (req, res) => {
 
         doc.getRows(2,
             {
-            offset: 1,
-            },(err,row)=>{
-            console.log(row[findById(req.query["messenger user id"],row)])
-            row[findById(req.query["messenger user id"],row)].category = req.query.category;
-            row[findById(req.query["messenger user id"],row)].save();
-            res.send(row);
-        })
+                offset: 1,
+            }, (err, row) => {
+                console.log(row[findById(req.query["messenger user id"], row)])
+                row[findById(req.query["messenger user id"], row)].category = req.query.category;
+                row[findById(req.query["messenger user id"], row)].save();
+                res.send(row);
+            })
     })
 
-  .get('/Position',(req,res)=>{
-      console.log(req.query)
-      doc.getRows(2,
-          {
-          offset: 1,
-          },(err,row)=>{
-          console.log(row[findById(req.query.fbID,row)])
-          row[findById(req.query.fbID,row)].position = req.query.WorkPosition;
-          row[findById(req.query.fbID,row)].save();
-  
-      }) 
+    .get('/Position', (req, res) => {
+        console.log(req.query)
+        console.log(req.query.Others);
 
-      var request = require('request');
-      
-          request.post(
-              `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
-              { json: { key: req.query.WorkPosition } },
-              function (error, response, body) {
-                  if (!error && response.statusCode == 200) {
-                      console.log(body)
-                  }
-              }
-          );
+        var request = require('request');
+        if (req.query.WorkPosition != "undefined") {
+            doc.getRows(2,
+                {
+                    offset: 1,
+                }, (err, row) => {
+                    var id = row.findIndex(value => value.id == req.query.id)
+                    row[id].position = req.query.WorkPosition;
+                    row[id].save();
+                })
 
-  })
 
-  .get('/LocPrint',(req,res)=>{
-    console.log(req.query)
-    doc.getRows(2,
-        {
-        offset: 1,
-        },(err,row)=>{
-        console.log(row[findById(req.query.fbID,row)])
-        row[findById(req.query.fbID,row)].location = req.query.WorkPosition;
-        row[findById(req.query.fbID,row)].save();
-
-    }) 
-
-    var request = require('request');
-    
-        request.post(
-            `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
-            { json: { key: req.query.WorkPosition } },
-            function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    console.log(body)
+            request.post(
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
+                { json: { key: req.query.WorkPosition } },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log(body)
+                    }
                 }
-            }
-        );
+            );
 
-})
+        }
+        else if (req.query.Others != "") {
+            doc.getRows(2,
+                {
+                    offset: 1,
+                }, (err, row) => {
+                    row.map((value, index) => {
+                        if (value.id == req.query.fbID) {
+                            row[index].position = req.query.Others;
+                            row[index].save();
+                        }
+                    })
 
-.get('/writeName',(req,res)=>{
-  console.log(req.query)
-  doc.getRows(2,
-      {
-      offset: 1,
-      },(err,row)=>{
-      row[findById(req.query["messenger user id"],row)].name = req.query.Name;
-      row[findById(req.query["messenger user id"],row)].save();
-      res.send(row);
-  }) 
-})
+                })
 
-.get('/writeAddress',(req,res)=>{
-  console.log(req.query)
-  doc.getRows(2,
-      {
-      offset: 1,
-      },(err,row)=>{
-      row[findById(req.query["messenger user id"],row)].address = req.query.Address;
-      row[findById(req.query["messenger user id"],row)].save();
-      res.send(row);
-  }) 
-})
+            request.post(
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
+                { json: { key: req.query.Others } },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log(body)
+                    }
+                }
+            );
 
-.get('/writeBirthday',(req,res)=>{
-  console.log(req.query)
-  doc.getRows(2,
-      {
-      offset: 1,
-      },(err,row)=>{
-      row[findById(req.query["messenger user id"],row)].birthday = req.query.birthday;
-      row[findById(req.query["messenger user id"],row)].save();
-      res.send(row);
-  }) 
-})
-
-.get('/writeEmail',(req,res)=>{
-  console.log(req.query)
-    doc.getRows(2,
-        {
-        offset: 1,
-        },(err,row)=>{
-        row[findById(req.query["messenger user id"],row)].email = req.query.email;
-        row[findById(req.query["messenger user id"],row)].save();
-    }) 
-  
-  
-})
-
-.get('/writeNumber',(req,res)=>{
-  console.log(req.query)
-  console.log(req.query.number.length);
-
-    doc.getRows(2,
-        {
-        offset: 1,
-        },(err,row)=>{
-        row[findById(req.query["messenger user id"],row)].number = req.query.number;
-        row[findById(req.query["messenger user id"],row)].save();
-//    /     res.send(row);
+        }
     })
 
-  
-})
+    .get('/LocPrint', (req, res) => {
+        var request = require('request');
+        if (req.query.WorkPosition != "undefined") {
+            doc.getRows(2,
+                {
+                    offset: 1,
+                }, (err, row) => {
+                    var id = row.findIndex(value => value.id == req.query.id)
+                    row[id].position = req.query.WorkPosition;
+                    row[id].save();
+                })
 
 
-    
+            request.post(
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
+                { json: { key: req.query.WorkPosition } },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log(body)
+                    }
+                }
+            );
+
+        }
+        else if (req.query.Others != "") {
+            doc.getRows(2,
+                {
+                    offset: 1,
+                }, (err, row) => {
+                    row.map((value, index) => {
+                        if (value.id == req.query.fbID) {
+                            row[index].position = req.query.Others;
+                            row[index].save();
+                        }
+                    })
+
+                })
+
+            request.post(
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
+                { json: { key: req.query.Others } },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log(body)
+                    }
+                }
+            );
+
+        }
+
+    })
+
+    .get('/writeName', (req, res) => {
+        console.log(req.query)
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                row[findById(req.query["messenger user id"], row)].name = req.query.Name;
+                row[findById(req.query["messenger user id"], row)].save();
+                res.send(row);
+            })
+    })
+
+    .get('/writeAddress', (req, res) => {
+        console.log(req.query)
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                row[findById(req.query["messenger user id"], row)].address = req.query.Address;
+                row[findById(req.query["messenger user id"], row)].save();
+                res.send(row);
+            })
+    })
+
+    .get('/writeBirthday', (req, res) => {
+        console.log(req.query)
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                row[findById(req.query["messenger user id"], row)].birthday = req.query.birthday;
+                row[findById(req.query["messenger user id"], row)].save();
+                res.send(row);
+            })
+    })
+
+    .get('/writeEmail', (req, res) => {
+        console.log(req.query)
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                row[findById(req.query["messenger user id"], row)].email = req.query.email;
+                row[findById(req.query["messenger user id"], row)].save();
+            })
 
 
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+    })
+
+    .get('/writeNumber', (req, res) => {
+        console.log(req.query)
+        console.log(req.query.number.length);
+
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                row[findById(req.query["messenger user id"], row)].number = req.query.number;
+                row[findById(req.query["messenger user id"], row)].save();
+                //    /     res.send(row);
+            })
 
 
-  function renderView(locals) {
+    })
+
+
+
+
+
+    .listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+
+function renderView(locals) {
     return `
       <!DOCTYPE html>
       <html>
@@ -680,6 +833,14 @@ express()
         ${locals.body}
         </ul>
         <br>
+        
+        <div align="center">
+            <label for="inp" class="inp">
+                <input type="text" id="others" placeholder="&nbsp;">
+                <span class="label">Others:</span>
+            </label>
+        </div>
+        
         <div align="center">
         <button type="submit" class="button">Submit</button>
         </div>
@@ -732,4 +893,4 @@ express()
       </body>
       </html>
     `;
-  }
+}

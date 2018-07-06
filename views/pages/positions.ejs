@@ -205,35 +205,168 @@
         font-size: 16px;
         margin: 4px 2px;
         cursor: pointer;
+
     }
+    
+    .sample {
+	 display: grid;
+	 font-family: Avenir;
+	 -webkit-text-size-adjust: 100%;
+	 -webkit-font-smoothing: antialiased;
+}
+ .sample2 {
+	 box-sizing: border-box;
+}
+ .inp {
+	 position: relative;
+	 margin: auto;
+	 width: 100%;
+	 max-width: 280px;
+}
+ .inp .label {
+	 position: absolute;
+	 top: 16px;
+	 left: 0;
+	 font-size: 16px;
+	 color: #aaa;
+	 font-weight: 500;
+	 transform-origin: 0 0;
+	 transition: all 0.2s ease;
+}
+ .inp .border {
+	 position: absolute;
+	 bottom: 0;
+	 left: 0;
+	 height: 2px;
+	 width: 100%;
+	 background: #07f;
+	 transform: scaleX(0);
+	 transform-origin: 0 0;
+	 transition: all 0.15s ease;
+}
+ .inp input {
+	 -webkit-appearance: none;
+	 width: 100%;
+	 border: 0;
+	 font-family: inherit;
+	 padding: 12px 0;
+	 height: 48px;
+	 font-size: 16px;
+	 font-weight: 500;
+	 border-bottom: 2px solid #FFFFFF;
+	 background: none;
+	 border-radius: 0;
+	 color: #FFFFFF;
+	 transition: all 0.15s ease;
+}
+ .inp input:hover {
+	 background: rgba(34,50,84,0.03);
+}
+ .inp input:not(:placeholder-shown) + span {
+	 color: #aaa;
+	 transform: translateY(-26px) scale(0.75);
+}
+ .inp input:focus {
+	 background: none;
+	 outline: none;
+}
+ .inp input:focus + span {
+	 color: #FFFFFF;
+	 transform: translateY(-26px) scale(0.75);
+}
+ .inp input:focus + span + .border {
+	 transform: scaleX(1);
+}
+ 
+    
 </style>
 
+<script>
+    // Code copied from Facebook to load and initialise Messenger extensions
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+</script>
 <body>
 
     <div class="container">
         <form id="preferencesForm">
-            <h2>Skilled</h2>
-
-            <!-- <ul>
-                <% for(let i = 0; i < positions.length; i++){ %>
-                    <li>
-                        <input type="radio" id="<%=positions[i].position %>" name="WorkPosition" value="<%=p ositions[i].position %>">
-                        <label for="option${i}">
-                            <%= positions[i].position %>
-                        </label>
-
-                        <div class="check"></div>
-                    </li>
-                % } %>
-            </ul> -->
-            <!-- <br>
+            <h2>Positions</h2>
+            <ul>
+            <% 
+            positions.forEach((pos,i)=>{
+                console.log(pos)
+            %>
+                <li>
+                    <input type="radio" id="option<%= i %>" name="WorkPosition" value="<%= pos.position%>">
+                    <label for="option<%= i %>"><%= pos.position%></label>
+                    
+                    <div class="check"></div>
+                </li>
+            <%
+            }); 
+            %>
+            <div align="center">
+                <label for="inp" class="inp">
+                    <input type="text" id="others" placeholder="&nbsp;">
+                    <span class="label">Others:</span>
+                </label>
+            </div>
+            </ul>
             <div align="center">
                 <button type="submit" class="button">Submit</button>
-            </div> -->
-
+            </div>
+            <input type="hidden" id="id" name="id" value="<%= id %>">
         </form>
     </div>
 
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+        integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+        crossorigin="anonymous"></script>
+
+        <script>
+        window.extAsyncInit = function() {
+          console.log('Messenger extensions are ready');
+         
+          // Handle button click
+          $('#preferencesForm').submit(function(event) {
+
+            console.log('Submit pressed');
+            event.preventDefault();
+            var radios = document.getElementsByName('WorkPosition');
+            var WorkPosition;
+            for (var i = 0, length = radios.length; i < length; i++)
+            {
+             if (radios[i].checked)
+             {
+              // do whatever you want with the checked radio
+              WorkPosition=radios[i].value
+            
+              // only one radio can be logically checked, don't check the rest
+              break;
+             }
+            }
+
+            var formData = {
+                WorkPosition: WorkPosition,
+                fbid: document.getElementById('id').value,
+                others: document.getElementById('others').value
+            }
+            if(formData.WorkPosition != undefined && formData.others != ""){
+                alert("You can only choose one from the options or specify your desired position");
+            }
+            else{
+                window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="Please wait for this window to close"');
+                $.get("/Position?id="+formData.fbid+"&WorkPosition="+WorkPosition+"&Others="+formData.others, function (data) {});
+            }
+          });
+          
+        }
+      </script>
 </body>
 
 </html>
