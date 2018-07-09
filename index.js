@@ -29,13 +29,13 @@ async.series([
 ])
 
 
- function findById(id, rows) {
-    rows.forEach((value,index)=>{
-        if(value.id == id){
-            console.log(index);  
+function findById(id, rows) {
+    rows.forEach((value, index) => {
+        if (value.id == id) {
+            console.log(index);
             return index
         }
-        else{
+        else {
             console.log("wala");
         }
     })
@@ -72,7 +72,7 @@ express()
             {
                 offset: 1,
             }, (err, row) => {
-                
+
                 var id = row.findIndex(value => value.id == req.query.id)
                 console.log(id);
                 row[id].category = req.query.category;
@@ -184,6 +184,57 @@ express()
         res.render('pages/locations', { locations: date, id: id });
     })
 
+    .get('/VISMIN', (req, res) => {
+        let date = [
+            { location: "Cebu" },
+            { location: "Davao" },
+            { location: "Bacolod" },
+            { location: "Iloilo" },
+            { location: "Roxas City" },
+            { location: "Tacloban" },
+            { location: "Antique" },
+            { location: "Dumaguete" },
+            { location: "Cagayan De Oro" },
+            { location: "Cotabato" },
+        ];
+        let id = req.query.id;
+        res.render('pages/locations', { locations: date, id: id });
+    })
+
+    .get('/NL', (req, res) => {
+        let date = [
+            { location: "Bulacan" },
+            { location: "Pampanga" },
+            { location: "Cotabato" },
+            { location: "Nueva Ecija" },
+            { location: "Zambales" },
+            { location: "Bataan" },
+            { location: "Tarlac" },
+            { location: "Pangasinan" },
+            { location: "La Union" },
+            { location: "Baguio City" },
+            { location: "La Trinidad" },
+            { location: "Ilocos Norte" },
+            { location: "Isabela" },
+        ];
+        let id = req.query.id;
+        res.render('pages/locations', { locations: date, id: id });
+    })
+
+    .get('/SL', (req, res) => {
+        let date = [
+            { location: "Laguna" },
+            { location: "Cavite" },
+            { location: "Batangas" },
+            { location: "MIMAROPA" },
+            { location: "Quezon Province" },
+        ];
+        let id = req.query.id;
+        res.render('pages/locations', { locations: date, id: id });
+    })
+
+
+
 
     .get('/results', (req, res) => {
         doc.addRow(2, {
@@ -197,194 +248,6 @@ express()
         })
     })
 
-    .get('/Webview2', (req, res) => {
-        var choices = "";
-        var locations = [];
-        var opt;
-
-
-        if (req.query.location == "NCR") {
-            locations = [
-                { location: "Caloocan" },
-                { location: "Malabon" },
-                { location: "Navotas" },
-                { location: "Valenzuela" },
-                { location: "Quezon City" },
-                { location: "Marikina" },
-                { location: "San Juan" },
-                { location: "Marikina" },
-                { location: "Rizal" },
-                { location: "Mandaluyong" },
-                { location: "Pasig" },
-                { location: "Taguig" },
-                { location: "Makati" },
-                { location: "Pasay" },
-                { location: "Las Pinas" },
-                { location: "Paranaque" },
-                { location: "Muntinlupa" },
-            ];
-            opt = "NCR"
-        }
-        if (req.query.location == "VISMIN") {
-            locations = [
-                { location: "Cebu" },
-                { location: "Davao" },
-                { location: "Bacolod" },
-                { location: "Iloilo" },
-                { location: "Roxas City" },
-                { location: "Tacloban" },
-                { location: "Antique" },
-                { location: "Dumaguete" },
-                { location: "Cagayan De Oro" },
-                { location: "Cotabato" },
-            ];
-            opt = "VISMIN"
-        }
-        else if (req.query.location == "NORTH") {
-            locations = [
-                { location: "Bulacan" },
-                { location: "Pampanga" },
-                { location: "Cotabato" },
-                { location: "Nueva Ecija" },
-                { location: "Zambales" },
-                { location: "Bataan" },
-                { location: "Tarlac" },
-                { location: "Pangasinan" },
-                { location: "La Union" },
-                { location: "Baguio City" },
-                { location: "La Trinidad" },
-                { location: "Ilocos Norte" },
-                { location: "Isabela" },
-            ];
-            opt = "NORTH"
-        }
-
-        else if (req.query.location == "SOUTH") {
-            locations = [
-                { location: "Laguna" },
-                { location: "Cavite" },
-                { location: "Batangas" },
-                { location: "MIMAROPA" },
-                { location: "Quezon Province" },
-            ];
-            opt = "SOUTH"
-        }
-
-        locations.forEach((location, index) => {
-            console.log(location);
-            choices = choices + `
-                            <li>
-                            <input type="radio" id="option${index}" name="WorkPosition" value="${location.location}">
-                            <label for="option${index}">${location.location}</label>
-                            
-                            <div class="check"></div>
-                            </li>
-                            `
-        });
-        choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
-
-        const HTML = renderView({
-            title: `${req.query.location} Locations`,
-            body: choices,
-            script: `$.get("/LocPrint?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {
-                
-            });`
-
-        });
-
-        res.set('Content-Type', 'text/html');
-        res.status(200).send(HTML);
-    })
-
-    .get('/Webview', (req, res) => {
-        var choices = "";
-        var positions = [];
-        var opt;
-        console.log(req.query)
-        doc.getRows(2,
-            {
-                offset: 1,
-            }, (err, row) => {
-                console.log(row[findById(req.query.id, row)])
-                row[findById(req.query.id, row)].category = req.query.category;
-                row[findById(req.query.id, row)].save();
-            })
-
-        if (req.query.category == "Skilled") {
-            positions = [
-                { position: "Forklift Operator" },
-                { position: "Driver" },
-                { position: "Butcher" },
-                { position: "Massage Therapist" },
-                { position: "Gym Instructor" },
-                { position: "Warehouse Personnel" },
-                { position: "CAD Operator" },
-                { position: "Visual Artist" },
-                { position: "Plant Operator" },
-                { position: "Utility Man" },
-            ];
-            opt = "Skilled"
-        }
-        if (req.query.category == "Food") {
-            positions = [
-                { position: "Service Staff" },
-                { position: "Kitchen Staff" },
-                { position: "Dining Staff" },
-                { position: "Dishwasher" },
-                { position: "Busboy" },
-                { position: "Barista" },
-                { position: "Cook" }
-            ];
-            opt = "Food";
-        }
-        if (req.query.category == "Retail") {
-            positions = [
-                { position: "Sales Clerk" },
-                { position: "Customer Service Associate" },
-                { position: "Bagger" },
-                { position: "Merchandiser" },
-            ];
-            opt = "Retail"
-        }
-        else if (req.query.category == "BackOffice") {
-            positions = [
-                { position: "HR Staff" },
-                { position: "Accounting Staff" },
-                { position: "Payroll Staff" },
-                { position: "Admin Staff" },
-                { position: "Area Coordinator" },
-                { position: "Airline Ticketing Agent" },
-                { position: "Auto Loan Processor" },
-
-            ];
-            opt = "BackOffice"
-        }
-
-        positions.forEach((position, index) => {
-            console.log(position);
-            choices = choices + `
-                              <li>
-                              <input type="radio" id="option${index}" name="WorkPosition" value="${position.position}" required>
-                              <label for="option${index}">${position.position}</label>
-                              
-                              <div class="check"></div>
-                              </li>
-                              `
-        });
-        choices = choices + `<input type="hidden" id="fbID" name="fbID" value="${req.query.id}">`;
-
-        const HTML = renderView({
-            title: `${req.query.category} Positions`,
-            body: choices,
-            script: `$.get("/Position?fbID="+document.getElementById('fbID').value+"&WorkPosition="+WorkPosition, function (data) {});`
-
-
-
-        });
-
-        res.set('Content-Type', 'text/html');
-        res.status(200).send(HTML);
-    })
 
     .get('/Start', (req, res) => {
         doc.addRow(2, {
@@ -399,6 +262,38 @@ express()
         }, (err) => {
             res.send(err)
         })
+    })
+
+    .get('/check', (req, res) => {
+        doc.getRows(2,
+            {
+                offset: 1,
+            }, (err, row) => {
+                if (row.find(x => x.id == req.query["messenger user id"])) {
+
+                    request.post(
+                        `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.id}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Validate`,
+                        { json: { key: "" } },
+                        function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+                                console.log("success");
+                                console.log(body)
+                            }
+                        })
+                }
+                else{
+                    request.post(
+                        `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.id}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Education`,
+                        { json: { key: "" } },
+                        function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+                                console.log("success");
+                                console.log(body)
+                            }
+                        })
+                }
+
+            })
     })
 
     .get('/Education', (req, res) => {
@@ -434,6 +329,7 @@ express()
 
         var request = require('request');
         if (req.query.WorkPosition != "undefined") {
+            console.log("pumasok")
             doc.getRows(2,
                 {
                     offset: 1,
@@ -445,10 +341,11 @@ express()
 
 
             request.post(
-                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.id}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
                 { json: { key: req.query.WorkPosition } },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
+                        console.log("success");
                         console.log(body)
                     }
                 }
@@ -456,21 +353,21 @@ express()
 
         }
         else if (req.query.Others != "") {
+            console.log(req.query.Others);
             doc.getRows(2,
                 {
                     offset: 1,
                 }, (err, row) => {
                     row.map((value, index) => {
-                        if (value.id == req.query.fbID) {
-                            row[index].position = req.query.Others;
-                            row[index].save();
-                        }
+                        var id = row.findIndex(value => value.id == req.query.id)
+                        row[id].position = req.query.Others;
+                        row[id].save();
                     })
 
                 })
 
             request.post(
-                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.id}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Location`,
                 { json: { key: req.query.Others } },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
@@ -490,13 +387,13 @@ express()
                     offset: 1,
                 }, (err, row) => {
                     var id = row.findIndex(value => value.id == req.query.id)
-                    row[id].position = req.query.WorkPosition;
+                    row[id].location = req.query.WorkPosition;
                     row[id].save();
                 })
 
 
             request.post(
-                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.id}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
                 { json: { key: req.query.WorkPosition } },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
@@ -512,16 +409,15 @@ express()
                     offset: 1,
                 }, (err, row) => {
                     row.map((value, index) => {
-                        if (value.id == req.query.fbID) {
-                            row[index].position = req.query.Others;
-                            row[index].save();
-                        }
+                        var id = row.findIndex(value => value.id == req.query.id)
+                        row[id].location = req.query.Others;
+                        row[id].save();
                     })
 
                 })
 
             request.post(
-                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.fbID}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
+                `https://api.chatfuel.com/bots/5acc3391e4b075d7ce12ddd4/users/${req.query.id}/send?chatfuel_token=qwYLsCSz8hk4ytd6CPKP4C0oalstMnGdpDjF8YFHPHCieKNc0AfrnjVs91fGuH74&chatfuel_block_name=Thankyou`,
                 { json: { key: req.query.Others } },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
@@ -540,8 +436,9 @@ express()
             {
                 offset: 1,
             }, (err, row) => {
-                row[findById(req.query["messenger user id"], row)].name = req.query.Name;
-                row[findById(req.query["messenger user id"], row)].save();
+                var id = row.findIndex(value => value.id == req.query["messenger user id"])
+                row[id].name = req.query.Name;
+                row[id].save();
                 res.send(row);
             })
     })
@@ -552,8 +449,9 @@ express()
             {
                 offset: 1,
             }, (err, row) => {
-                row[findById(req.query["messenger user id"], row)].address = req.query.Address;
-                row[findById(req.query["messenger user id"], row)].save();
+                var id = row.findIndex(value => value.id == req.query["messenger user id"])
+                row[id].address = req.query.Address;
+                row[id].save();
                 res.send(row);
             })
     })
@@ -564,8 +462,9 @@ express()
             {
                 offset: 1,
             }, (err, row) => {
-                row[findById(req.query["messenger user id"], row)].birthday = req.query.birthday;
-                row[findById(req.query["messenger user id"], row)].save();
+                var id = row.findIndex(value => value.id == req.query["messenger user id"])
+                row[id].birthday = req.query.birthday;
+                row[id].save();
                 res.send(row);
             })
     })
@@ -576,8 +475,10 @@ express()
             {
                 offset: 1,
             }, (err, row) => {
-                row[findById(req.query["messenger user id"], row)].email = req.query.email;
-                row[findById(req.query["messenger user id"], row)].save();
+                var id = row.findIndex(value => value.id == req.query["messenger user id"])
+                row[id].email = req.query.email;
+                row[id].save();
+                res.send(row);
             })
 
 
@@ -591,306 +492,13 @@ express()
             {
                 offset: 1,
             }, (err, row) => {
-                row[findById(req.query["messenger user id"], row)].number = req.query.number;
-                row[findById(req.query["messenger user id"], row)].save();
-                //    /     res.send(row);
+                var id = row.findIndex(value => value.id == req.query["messenger user id"])
+                row[id].number = req.query.number;
+                row[id].save();
+                res.send(row);
             })
 
 
     })
 
-
-
-
-
     .listen(PORT, () => console.log(`Listening on ${PORT}`))
-
-
-function renderView(locals) {
-    return `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <title>${locals.title}</title>
-        <style>
-            
-    body, html{
-        height: 100%;
-        background: #222222;
-            font-family: 'Lato', sans-serif;
-        }
-        
-        .container{
-        display: block;
-        position: relative;
-        margin: 40px auto;
-        height: auto;
-        width: 500px;
-        padding: 20px;
-        }
-        
-        h2 {
-            color: #AAAAAA;
-        }
-        
-        .container ul{
-        list-style: none;
-        margin: 0;
-        padding: 0;
-            overflow: auto;
-        }
-        
-        ul li{
-        color: #AAAAAA;
-        display: block;
-        position: relative;
-        float: left;
-        width: 100%;
-        height: 100px;
-            border-bottom: 1px solid #333;
-        }
-        
-        ul li input[type=radio]{
-        position: absolute;
-        visibility: hidden;
-        }
-        
-        ul li label{
-        display: block;
-        position: relative;
-        font-weight: 300;
-        font-size: 1.35em;
-        padding: 25px 25px 25px 80px;
-        margin: 10px auto;
-        height: 30px;
-        z-index: 9;
-        cursor: pointer;
-        -webkit-transition: all 0.25s linear;
-        }
-        
-        ul li:hover label{
-            color: #FFFFFF;
-        }
-        
-        ul li .check{
-        display: block;
-        position: absolute;
-        border: 5px solid #AAAAAA;
-        border-radius: 100%;
-        height: 25px;
-        width: 25px;
-        top: 30px;
-        left: 20px;
-            z-index: 5;
-            transition: border .25s linear;
-            -webkit-transition: border .25s linear;
-        }
-        
-        ul li:hover .check {
-        border: 5px solid #FFFFFF;
-        }
-        
-        ul li .check::before {
-        display: block;
-        position: absolute;
-            content: '';
-        border-radius: 100%;
-        height: 15px;
-        width: 15px;
-        top: 5px;
-            left: 5px;
-        margin: auto;
-            transition: background 0.25s linear;
-            -webkit-transition: background 0.25s linear;
-        }
-        
-        input[type=radio]:checked ~ .check {
-        border: 5px solid #0DFF92;
-        }
-        
-        input[type=radio]:checked ~ .check::before{
-        background: #0DFF92;
-        }
-        
-        input[type=radio]:checked ~ label{
-        color: #0DFF92;
-        }
-        
-        .signature {
-            margin: 10px auto;
-            padding: 10px 0;
-            width: 100%;
-        }
-        
-        .signature p{
-            text-align: center;
-            font-family: Helvetica, Arial, Sans-Serif;
-            font-size: 0.85em;
-            color: #AAAAAA;
-        }
-        
-        .signature .much-heart{
-            display: inline-block;
-            position: relative;
-            margin: 0 4px;
-            height: 10px;
-            width: 10px;
-            background: #AC1D3F;
-            border-radius: 4px;
-            -ms-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            transform: rotate(45deg);
-        }
-        
-        .signature .much-heart::before, 
-        .signature .much-heart::after {
-            display: block;
-        content: '';
-        position: absolute;
-        margin: auto;
-        height: 10px;
-        width: 10px;
-        border-radius: 5px;
-        background: #AC1D3F;
-        top: -4px;
-        }
-        
-        .signature .much-heart::after {
-            bottom: 0;
-            top: auto;
-            left: -4px;
-        }
-        
-        .signature a {
-            color: #AAAAAA;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        
-        /* Styles for alert... 
-        by the way it is so weird when you look at your code a couple of years after you wrote it XD */
-        
-        .alert {
-            box-sizing: border-box;
-            background-color: #0DFF92;
-            width: 100%;
-            position: relative; 
-            top: 0;
-            left: 0;
-            z-index: 300;
-            padding: 20px 40px;
-            color: #333;
-        }
-        
-        .alert h2 {
-            font-size: 22px;    
-            color: #232323;
-            margin-top: 0;
-        }
-        
-        .alert p {
-            line-height: 1.6em;
-            font-size:18px;
-        }
-        
-        .alert a {
-            color: #232323;
-            font-weight: bold;
-        }
-        .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-        </style>
-      </head>
-    <script>
-        // Code copied from Facebook to load and initialise Messenger extensions
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'Messenger'));
-    </script>
-  
-      <body>
-        <div class="container">
-        <form id="preferencesForm">
-        <h2>${locals.title}</h2>
-        
-        <ul>
-        ${locals.body}
-        </ul>
-        <br>
-        
-        <div align="center">
-            <label for="inp" class="inp">
-                <input type="text" id="others" placeholder="&nbsp;">
-                <span class="label">Others:</span>
-            </label>
-        </div>
-        
-        <div align="center">
-        <button type="submit" class="button">Submit</button>
-        </div>
-
-        </form>
-        </div>
-
-        <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-        integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-        crossorigin="anonymous"></script>
-
-        <script>
-        window.extAsyncInit = function() {
-          console.log('Messenger extensions are ready');
-          
-          // Handle button click
-          $('#preferencesForm').submit(function(event) {
-            console.log('Submit pressed');
-
-            var radios = document.getElementsByName('WorkPosition');
-            var WorkPosition;
-            for (var i = 0, length = radios.length; i < length; i++)
-            {
-             if (radios[i].checked)
-             {
-              // do whatever you want with the checked radio
-              WorkPosition=radios[i].value
-            
-              // only one radio can be logically checked, don't check the rest
-              break;
-             }
-            }
-            const formData = {
-              WorkPosition: WorkPosition,
-              fbID: document.getElementById('fbID').value
-            }
-
-
-            window.location.replace('https://www.messenger.com/closeWindow/?image_url="asdfasdf"&display_text="Please wait for this window to close"');
-            
-
-           ${locals.script}
-
-           event.preventDefault();
-
-          });
-          
-        }
-      </script>    
-      </body>
-      </html>
-    `;
-}
